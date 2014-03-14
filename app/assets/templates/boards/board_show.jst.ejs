@@ -1,0 +1,10 @@
+
+<h1><%= board.escape('title') %></h1>
+<ul>
+
+<% lists.each(function(list) { %>
+  <li><%= list.escape('title') %></li>
+  <% }) %>
+
+</ul>
+
