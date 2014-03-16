@@ -1,10 +1,22 @@
-
-<h1><%= board.escape('title') %></h1>
 <% lists.each(function(list){ %>
-  <ul>
-  <%= list.escape('title') %>
-  <% list.cards().each(function(card){ %>
-    <li><%= card.escape('title') %></li>
-  <% }) %>
-  </ul>
+
+
+  <div class="col-md-3">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <%= list.escape('title') %>
+      </div>
+      <ul class="list-group">
+        <% list.cards().each(function (card) { %>
+          <li class="list-group-item">
+            <%= card.escape('title') %>
+          </li>
+        <% }) %>
+      </ul>
+      <div class="panel-footer new-card" data-id="<%= list.id %>">
+        <a>Add a card...</a>
+      </div>
+    </div>
+  </div>
+
 <% }) %>

@@ -65,7 +65,6 @@ window.Trellino.Views.ListShow = Backbone.CompositeView.extend({
     //   "axis": "y",
     //   "update": function (event, ui) { ui.item.trigger("move") }
     // });
-    debugger
     this.renderSubviews();
 
     return this;
