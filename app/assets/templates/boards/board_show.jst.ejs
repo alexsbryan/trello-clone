@@ -1,10 +1,10 @@
 
 <h1><%= board.escape('title') %></h1>
-<ul>
-
-<% lists.each(function(list) { %>
-  <li><a href="<%= '#boards/' + list.escape('board_id') + '/lists/' + list.id  %>"><%= list.escape('title') %></a></li>
+<% lists.each(function(list){ %>
+  <ul>
+  <%= list.escape('title') %>
+  <% list.cards().each(function(card){ %>
+    <li><%= card.escape('title') %></li>
   <% }) %>
-
-</ul>
-
+  </ul>
+<% }) %>
