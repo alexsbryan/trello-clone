@@ -1,12 +1,14 @@
 class ListsController < ApplicationController
   def index
     @lists = Board.find(params[:board_id]).lists
-    render json: @lists
+    render 'lists/index'
   end
 
   def show
-    @list = List.find(params[:list_id])
-    render json: @list
+  #@list = List.find(params[:list_id])
+  @list = List.find(params[:id])
+    @cards = @list.cards
+    render 'lists/show'
   end
 
   def create

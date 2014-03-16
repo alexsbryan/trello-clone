@@ -1,4 +1,4 @@
-json.(list, :title, :rank, :board_id, :created_at, :updated_at)
+json.(list, :id, :title, :rank, :board_id, :created_at, :updated_at)
 
 cards ||= nil
 unless cards.nil?

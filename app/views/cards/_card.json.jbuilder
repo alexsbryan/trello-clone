@@ -6,5 +6,5 @@ card,
 :rank,
 :created_at,
 :updated_at,
-list_id
+:list_id
 )

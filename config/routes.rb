@@ -1,8 +1,8 @@
 Trellino::Application.routes.draw do
   resources :boards, only: [:index, :show, :create, :update, :destroy] do
-    resources :lists, only: [:index, :show, :create, :update, :destroy]
+    resources :lists, only: [:index, :show, :create, :update, :destroy], :defaults => { :format => :json }
   end
-  resources :cards, only: [:create, :update, :destroy] do
+  resources :cards, only: [:create, :update, :destroy], :defaults => { :format => :json } do
       resources :todo_items, only: [:create, :update, :destroy]
     end
   resources :card_assignments, only: :destroy

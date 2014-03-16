@@ -2,7 +2,7 @@ class CardsController < ApplicationController
   def create
     @card = Card.new(card_params)
     if @card.save
-      render json: @card
+      render json: 'cards/card'
     else
       render json: { errors: @card.errors.full_messages }, status: 422
     end
