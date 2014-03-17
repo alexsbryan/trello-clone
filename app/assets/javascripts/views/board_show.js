@@ -6,7 +6,24 @@ window.Trellino.Views.BoardShow = Backbone.CompositeView.extend({
     this.listenTo(this.collection, "sync", this.render)
     this.listenTo(this.collection, 'reset sort', this.render);
     this.board.lists().each(this.addList.bind(this));
+    this.listenTo(this.board, 'all', this.render);
+    // this.listenTo(this.board.cards(), 'add', this.render);
   },
+
+
+  events: {
+    'click .new-card' : 'newCardForm'
+  },
+
+  newCardForm: function (event) {
+    event.preventDefault();
+    $(event.currentTarget).removeClass('new-card');
+    var view = new Trellino.Views.NewCardForm({
+      list: this.model
+    });
+    $(event.currentTarget).html(view.render().$el);
+  },
+
 
   addList: function (list) {
     var listsShowView = new Trellino.Views.ListShow({
@@ -19,18 +36,23 @@ window.Trellino.Views.BoardShow = Backbone.CompositeView.extend({
 
 
   renderLists: function () {
+    var that = this
       this.board.lists().each(function (list) {
         var view = new Trellino.Views.ListShow({
           model: list
         });
-        this.addSubview('.lists', view.render());
-      }, this);
+        debugger
+        that.addSubview('.lists', view.render());
+      });
+      this.renderSubviews();
     },
 
 
   template: JST['boards/board_show'],
 
   render: function () {
+
+
     var that = this;
     // this.collection.comparator = 'rank';
     var renderedContent = this.template({
@@ -40,7 +62,7 @@ window.Trellino.Views.BoardShow = Backbone.CompositeView.extend({
 
 
     this.$el.html(renderedContent);
-    //this.renderLists();
+   // this.renderLists();
     //this.renderSubviews();
 
     return this;

@@ -1,2 +1,17 @@
-<ul class='list-<%= list.id %>' data-list-id='<%= list.id %>'><%= list.escape('title') %></ul>
-
+<div class="col-md-3">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <%= list.escape('title') %>
+    </div>
+    <ul class="list-group">
+      <% list.cards().each(function (card) { %>
+        <li class="list-group-item">
+          <%= card.escape('title') %>
+        </li>
+      <% }) %>
+    </ul>
+    <div class="panel-footer new-card" data-id="<%= list.id %>">
+      <a>Add a card...</a>
+    </div>
+  </div>
+</div>

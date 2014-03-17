@@ -1,12 +1,11 @@
 window.Trellino.Views.ListShow = Backbone.CompositeView.extend({
   template: JST["lists/show"],
 
-  attributes: function () {
-    return {
-      "data-id": this.model.get("id")
-    };
-  },
-
+  // attributes: function () {
+  //   return {
+  //     "data-id": this.model.get("id")
+  //   };
+  // },
 
   initialize: function (options) {
     // this.listenTo(this.model, "sync", this.render);
@@ -26,6 +25,8 @@ window.Trellino.Views.ListShow = Backbone.CompositeView.extend({
     // });
     // this.addSubview(".card-new", cardNewView);
   },
+
+
 
   addCard: function (card) {
     var cardsShowView = new Trellino.Views.CardsShow({
@@ -59,13 +60,18 @@ window.Trellino.Views.ListShow = Backbone.CompositeView.extend({
     });
 
 
+
+
     this.$el.html(renderedContent);
 
     // this.$(".cards").sortable({
     //   "axis": "y",
     //   "update": function (event, ui) { ui.item.trigger("move") }
     // });
+
     this.renderSubviews();
+
+
 
     return this;
   }
