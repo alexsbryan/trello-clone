@@ -1,15 +1,13 @@
 window.Trellino.Views.BoardShow = Backbone.CompositeView.extend({
   initialize: function(options) {
     //for any listenTo actions
-
-    this.collection = options.collection,
+    // this.collection = options.collection,
     this.board = options.board,
     this.listenTo(this.collection, "sync", this.render)
-    this.listenTo(this.collection, 'reset sort', this.render);
-    this.listenTo(this.board, 'all add', this.render);
-     this.listenTo(this.board.lists(), 'all add sync', this.render, 50);
-
-    this.board.lists().each(this.addList.bind(this));
+    this.listenTo(this.collection, "add reset sort", this.render);
+    // this.listenTo(this.board, "all add", this.render);
+    // this.listenTo(this.board.lists(), "add create sync", this.render);
+    this.collection.each(this.addList.bind(this));
     // this.listenTo(this.board.cards(), 'add', this.render);
   },
 
@@ -32,14 +30,17 @@ window.Trellino.Views.BoardShow = Backbone.CompositeView.extend({
 //   },
 
   createList: function (event) {
+    debugger
     event.preventDefault();
     var data = {
       title: this.$('#title').val(),
       rank: (this.board.lists().length + 1),
       board_id: this.board.id
     };
-
-    this.board.lists().create(data);
+    var newList = new Trellino.Models.List();
+    newList.save(data);
+    this.collection.add(newList);
+    //this.collection.create(data);
   },
 
 
@@ -79,8 +80,77 @@ window.Trellino.Views.BoardShow = Backbone.CompositeView.extend({
 
 
     this.$el.html(renderedContent);
+
    // this.renderLists();
+
+   //makes cards sortable
+   //todo: break into separate method
     this.renderSubviews();
+    $(this.$el).find(".list-group").sortable({
+      cursor: "move",
+      opacity: .3,
+      stop: function (event, ui) {
+        var $card = $(ui.item);
+        var nextLiOrder = $card.next().data("card-order");
+        var prevLiOrder = $card.prev().data("card-order");
+        var updatedAttr;
+        if(nextLiOrder && prevLiOrder){
+          updatedAttr = (nextLiOrder+prevLiOrder)/2;
+        } else if(nextLiOrder){
+          updatedAttr = nextLiOrder/2
+        } else {
+          updatedAttr = prevLiOrder + 100
+        }
+        $card.attr('data-card-order',updatedAttr);
+
+        var listToUpdate = that.collection.get(parseInt($card.data('list-id')));
+        var cardToUpdate = listToUpdate.cards().get(parseInt($card.data('id')));
+
+
+        cardToUpdate.save({
+          rank: updatedAttr
+        }, {patch:true})
+
+      }
+    });
+
+
+    //makes lists sortable
+    //todo: break into separate method
+    $(this.$el).find(".lists").sortable({
+      cursor: "move",
+      opacity: .3,
+      stop: function (event, ui) {
+        var $list = $(ui.item);
+        var nextLiOrder = $list.next().data("list-rank");
+        var prevLiOrder = $list.prev().data("list-rank");
+        var updatedAttr;
+        if(nextLiOrder && prevLiOrder){
+          updatedAttr = (nextLiOrder+prevLiOrder)/2;
+        } else if(nextLiOrder){
+          updatedAttr = nextLiOrder/2
+        } else {
+          updatedAttr = prevLiOrder + 100
+        }
+        $list.attr('data-list-rank',updatedAttr);
+
+        var listToUpdate = that.collection.get(parseInt($list.data('id')));
+        debugger
+
+        listToUpdate.save({
+          rank: updatedAttr
+        }, {patch:true})
+
+      }
+    })
+
+
+
+
+
+
+
+
 
     return this;
   }

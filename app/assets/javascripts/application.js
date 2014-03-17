@@ -19,6 +19,7 @@
 //= require trellino
 //= require underscore
 //= require backbone
+//= require jquery.ui.draggable
 //= require jquery.serializeJSON
 //= require trellino
 //= require_tree ../templates

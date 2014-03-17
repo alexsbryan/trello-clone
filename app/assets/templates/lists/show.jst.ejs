@@ -3,15 +3,17 @@
     <div class="panel-heading">
       <%= list.escape('title') %>
     </div>
-    <ul class="list-group">
+    <ol class="list-group">
       <% list.cards().each(function (card) { %>
-        <li class="list-group-item">
+        <li class="list-group-item" data-id="<%= card.id %>" data-list-id="<%= list.id %>" data-card-order="<%= card.escape('rank') %>">
           <%= card.escape('title') %>
         </li>
       <% }) %>
-    </ul>
+    </ol>
     <div class="panel-footer new-card" data-id="<%= list.id %>">
       <a>Add a card...</a>
     </div>
+    <div class="panel-footer delete-list" data-id="<%= list.id %>">
+      <a>Delete List...</a>
+    </div>
   </div>
-

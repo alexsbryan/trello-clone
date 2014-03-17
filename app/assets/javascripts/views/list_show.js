@@ -1,16 +1,18 @@
 window.Trellino.Views.ListShow = Backbone.CompositeView.extend({
-  className: "col-md-3",
+  className: "col-md-3 board-group",
+  tagName: "li",
   template: JST["lists/show"],
 
-  // attributes: function () {
-  //   return {
-  //     "data-id": this.model.get("id")
-  //   };
-  // },
+  attributes: function () {
+    return {
+      "data-id": this.model.get("id"),
+      "data-list-rank": this.model.get("rank")
+    };
+  },
 
   initialize: function (options) {
-    // this.listenTo(this.model, "sync", this.render);
-    // this.listenTo(this.model.cards(), "add", this.addCard);
+    this.listenTo(this.model, "sync", this.render);
+    this.listenTo(this.model.cards(), "add", this.addCard);
     // this.listenTo(this.model.cards(), "remove", this.removeCard);
 
     this.model = options.model;
