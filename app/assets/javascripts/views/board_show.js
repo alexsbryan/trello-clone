@@ -30,7 +30,6 @@ window.Trellino.Views.BoardShow = Backbone.CompositeView.extend({
 //   },
 
   createList: function (event) {
-    debugger
     event.preventDefault();
     var data = {
       title: this.$('#title').val(),
@@ -135,7 +134,6 @@ window.Trellino.Views.BoardShow = Backbone.CompositeView.extend({
         $list.attr('data-list-rank',updatedAttr);
 
         var listToUpdate = that.collection.get(parseInt($list.data('id')));
-        debugger
 
         listToUpdate.save({
           rank: updatedAttr
