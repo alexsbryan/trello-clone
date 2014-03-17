@@ -1,4 +1,5 @@
 window.Trellino.Views.ListShow = Backbone.CompositeView.extend({
+  className: "col-md-3",
   template: JST["lists/show"],
 
   // attributes: function () {
