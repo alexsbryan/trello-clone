@@ -42,6 +42,7 @@ window.Trellino.Views.ListShow = Backbone.CompositeView.extend({
     var view = new Trellino.Views.NewCardForm({
       list: this.model
     });
+
     $(event.currentTarget).html(view.render().$el);
   },
   //ADDDD

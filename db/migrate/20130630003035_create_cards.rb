@@ -3,8 +3,8 @@ class CreateCards < ActiveRecord::Migration
     create_table :cards do |t|
       t.string :title, null: false
       t.text :description
-      t.integer :rank, null: false
-      
+      t.float :rank, null: false
+
       t.timestamps
     end
   end

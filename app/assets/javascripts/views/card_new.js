@@ -2,7 +2,8 @@ window.Trellino.Views.NewCardForm = Backbone.View.extend({
   //className: "new-card",
   initialize: function (options) {
     this.listenTo(Trellino.Collections.boards,"add change:title", this.render),
-    this.list = options.list
+    this.list = options.list,
+    this.listenTo(this.list.cards(),"add sync", this.render)
   },
 
   template: JST['cards/new'],
@@ -29,7 +30,8 @@ window.Trellino.Views.NewCardForm = Backbone.View.extend({
 
 
     var $formData = $(event.currentTarget).serializeJSON();
-    this.list.cards().create(data)
+    this.list.cards().create(data);
+    this.render();
   }
 
 })

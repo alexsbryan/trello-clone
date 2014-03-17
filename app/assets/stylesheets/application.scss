@@ -24,6 +24,10 @@
  color: #f6f6f6;
 }
 
+input, button, li {
+  color: #000;
+}
+
 
 
 
@@ -48,7 +52,7 @@ body {
     font-family: "Lato";
     font-weight: 300;
     font-size: 16px;
-    color: #555;
+    color: #f6f6f6;
 
     -webkit-font-smoothing: antialiased;
     -webkit-overflow-scrolling: touch;
@@ -60,7 +64,7 @@ body {
 h1, h2, h3, h4, h5, h6 {
     font-family: "Raleway";
     font-weight: 300;
-    color: #333;
+    color: #f6f6f6;
 }
 
 
@@ -80,7 +84,7 @@ p {
 
 /* Links */
 a {
-    color: #f85c37;
+    color: #EBD669;
     word-wrap: break-word;
 
     -webkit-transition: color 0.1s ease-in, background 0.1s ease-in;
@@ -88,6 +92,10 @@ a {
     -ms-transition: color 0.1s ease-in, background 0.1s ease-in;
     -o-transition: color 0.1s ease-in, background 0.1s ease-in;
     transition: color 0.1s ease-in, background 0.1s ease-in;
+}
+
+.panel-footer a {
+  color:#428bca;
 }
 
 a:hover,
