@@ -11,6 +11,7 @@ window.Trellino.Views.ListShow = Backbone.CompositeView.extend({
     // this.listenTo(this.model, "sync", this.render);
     // this.listenTo(this.model.cards(), "add", this.addCard);
     // this.listenTo(this.model.cards(), "remove", this.removeCard);
+
     this.model = options.model;
     var that = this;
 
@@ -25,8 +26,22 @@ window.Trellino.Views.ListShow = Backbone.CompositeView.extend({
     // });
     // this.addSubview(".card-new", cardNewView);
   },
+  //AADDDDD
+  events: {
+    'click .new-card' : 'newCardForm'
+  },
 
+  ///make the add card ger
+  newCardForm: function (event) {
+    event.preventDefault();
+    $(event.currentTarget).removeClass('new-card');
 
+    var view = new Trellino.Views.NewCardForm({
+      list: this.model
+    });
+    $(event.currentTarget).html(view.render().$el);
+  },
+  //ADDDD
 
   addCard: function (card) {
     var cardsShowView = new Trellino.Views.CardsShow({

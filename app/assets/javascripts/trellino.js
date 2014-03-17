@@ -25,22 +25,19 @@ $(document).ready(function(){
 
 
 Backbone.CompositeView = Backbone.View.extend({
-  addSubview: function (selector, subview) {
+  addSubview: function(selector, subview){
     var selectorSubviews =
-      this.subviews()[selector] || (this.subviews()[selector] = []);
+    this.subviews()[selector] || (this.subviews()[selector] = []);
 
     selectorSubviews.push(subview);
-
     var $selectorEl = this.$(selector);
-    $selectorEl.append(subview.$el);
+    $selectorEl.append(subview.$el)
   },
 
-  remove: function () {
+  remove: function(){
     Backbone.View.prototype.remove.call(this);
-
-    // remove all subviews as well
-    _(this.subviews()).each(function (selectorSubviews, selector) {
-      _(selectorSubviews).each(function (subview){
+    _(this.subviews()).each(function(selectorSubviews, selector){
+      _(selectorSubviews).each(function(subview){
         subview.remove();
       });
     });
@@ -55,22 +52,22 @@ Backbone.CompositeView = Backbone.View.extend({
     subview.remove();
   },
 
-  renderSubviews: function () {
+  renderSubviews: function(){
     var view = this;
-    _(this.subviews()).each(function (selectorSubviews, selector) {
-      var $selectorEl = $(selector);
-      // $selectorEl.empty();
+    _(this.subviews()).each(function (selectorSubviews, selector){
+      var $selectorEl = view.$(selector);
+      $selectorEl.empty();
 
-      _(selectorSubviews).each(function (subview) {
+      _(selectorSubviews).each(function(subview){
         $selectorEl.append(subview.render().$el);
         subview.delegateEvents();
       });
     });
   },
 
-  subviews: function () {
-    if (!this._subviews) {
-      this._subviews = {};
+  subviews: function() {
+    if (!this._subviews){
+      this._subviews = {}
     }
 
     return this._subviews;

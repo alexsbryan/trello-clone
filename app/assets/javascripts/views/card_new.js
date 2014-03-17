@@ -21,7 +21,6 @@ window.Trellino.Views.NewCardForm = Backbone.View.extend({
 
   submit: function (event) {
     event.preventDefault();
-    debugger
     var data = {
       title: this.$('#title').val(),
       rank: this.list.cards().length + 1,
@@ -30,7 +29,7 @@ window.Trellino.Views.NewCardForm = Backbone.View.extend({
 
 
     var $formData = $(event.currentTarget).serializeJSON();
-    this.list.cards().create($formData)
+    this.list.cards().create(data)
   }
 
 })

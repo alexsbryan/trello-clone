@@ -1,22 +1,12 @@
-<% lists.each(function(list){ %>
+<div class="lists"></div>
+<div class="hidden" id="list-form">
+  <form id="new-list-form">
+    <input id="title" type="text" name="list[title]" id="list-title">
 
-
-  <div class="col-md-3">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <%= list.escape('title') %>
-      </div>
-      <ul class="list-group">
-        <% list.cards().each(function (card) { %>
-          <li class="list-group-item" data-id='<%= card.id %>'>
-            <%= card.escape('title') %>
-          </li>
-        <% }) %>
-      </ul>
-      <div class="panel-footer new-card" data-id="<%= list.id %>">
-        <a>Add a card...</a>
-      </div>
-    </div>
-  </div>
-
-<% }) %>
+    <button id="create-list" class="btn btn-primary">Add List</button>
+      <button id="never-mind" class="btn btn-warning">x</button>
+  </form>
+</div>
+<div id="new-list-button">
+  <button id="new-list" class="btn btn btn-primary">Add List</button>
+</div>
