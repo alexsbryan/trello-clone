@@ -99,6 +99,12 @@ window.Trellino.Views.BoardShow = Backbone.CompositeView.extend({
 
     $(this.$el).find(".list-group").sortable({
       connectWith: ".list-group",
+      start: function(event, ui){
+        $(ui.item).css({
+          '-moz-transform': 'rotate(7deg)',
+          '-webkit-transform': 'rotate(7deg)'
+        });
+      },
       cursor: "move",
       opacity: .3,
       stop: function(event,ui) {
@@ -168,6 +174,12 @@ window.Trellino.Views.BoardShow = Backbone.CompositeView.extend({
       },
 
   sortCards: function (event, ui) {
+
+    $(ui.item).css({
+      '-moz-transform': 'rotate(0deg)',
+      '-webkit-transform': 'rotate(0deg)'
+    });
+
         var $card = $(ui.item);
         var nextLiOrder = $card.next().data("card-order");
         var prevLiOrder = $card.prev().data("card-order");
