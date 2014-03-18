@@ -21,7 +21,7 @@ window.Trellino.Views.CardsShow = Backbone.View.extend({
   initialize: function (options) {
     this.open = false;
     this.card = options.model;
-    this.listenTo(this.model, "change", this.render);
+    this.listenTo(this.model, "add", this.render);
   },
 
   // beginEditing: function () {

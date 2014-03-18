@@ -4,15 +4,23 @@ window.Trellino.Views.BoardShow = Backbone.CompositeView.extend({
     this.board = options.board,
     this.listenTo(this.collection, "sync", this.renderSubviews()),
     // this.listenTo(this.collection, "sync", this.render),
-    this.listenTo(this.collection, "add reset sort", this.render),
-     this.listenTo(this.collection, "add reset sort", this.renderSubviews()),
+    // this.listenTo(this.collection, "add", this.render),
+    this.listenTo(this.collection, "add reset sort", this.renderSubviews()),
+
     this.collection.each(this.addList.bind(this))
+
     // this.listenTo(this.board.cards(), 'add', this.render);
     // this.listenTo(this.board, "all add", this.render);
     // this.listenTo(this.board.lists(), "add create sync", this.render);
   },
 
   template: JST['boards/board_show'],
+
+  refreshSubviews: function () {
+    this.remove();
+    this.collection.each(this.addList.bind(this));
+  },
+
 
   events: {
     'click .new-card' : 'newCardForm',
@@ -92,29 +100,32 @@ window.Trellino.Views.BoardShow = Backbone.CompositeView.extend({
     $(this.$el).find(".list-group").sortable({
       cursor: "move",
       opacity: .3,
-      stop: function (event, ui) {
-        var $card = $(ui.item);
-        var nextLiOrder = $card.next().data("card-order");
-        var prevLiOrder = $card.prev().data("card-order");
-        var updatedAttr;
-        if(nextLiOrder && prevLiOrder){
-          updatedAttr = (nextLiOrder+prevLiOrder)/2;
-        } else if(nextLiOrder){
-          updatedAttr = nextLiOrder/2
-        } else {
-          updatedAttr = prevLiOrder + 100
-        }
-        $card.attr('data-card-order',updatedAttr);
-
-        var listToUpdate = that.collection.get(parseInt($card.data('list-id')));
-        var cardToUpdate = listToUpdate.cards().get(parseInt($card.data('id')));
-
-
-        cardToUpdate.save({
-          rank: updatedAttr
-        }, {patch:true})
-
+      stop: function(event,ui) {
+        return that.sortCards(event,ui)
       }
+      // function (event, ui) {
+//         var $card = $(ui.item);
+//         var nextLiOrder = $card.next().data("card-order");
+//         var prevLiOrder = $card.prev().data("card-order");
+//         var updatedAttr;
+//         if(nextLiOrder && prevLiOrder){
+//           updatedAttr = (nextLiOrder+prevLiOrder)/2;
+//         } else if(nextLiOrder){
+//           updatedAttr = nextLiOrder/2
+//         } else {
+//           updatedAttr = prevLiOrder + 100
+//         }
+//         $card.attr('data-card-order',updatedAttr);
+//
+//         var listToUpdate = that.collection.get(parseInt($card.data('list-id')));
+//         var cardToUpdate = listToUpdate.cards().get(parseInt($card.data('id')));
+//
+//
+//         cardToUpdate.save({
+//           rank: updatedAttr
+//         }, {patch:true})
+//
+//       }
     });
 
 
@@ -123,7 +134,16 @@ window.Trellino.Views.BoardShow = Backbone.CompositeView.extend({
     $(this.$el).find(".lists").sortable({
       cursor: "move",
       opacity: .3,
-      stop: function (event, ui) {
+      stop: function(event,ui) {
+        return that.sortLists(event,ui)
+      }
+
+     })
+
+    return this;
+  },
+
+  sortLists: function (event, ui) {
         var $list = $(ui.item);
         var nextLiOrder = $list.next().data("list-rank");
         var prevLiOrder = $list.prev().data("list-rank");
@@ -133,20 +153,42 @@ window.Trellino.Views.BoardShow = Backbone.CompositeView.extend({
         } else if(nextLiOrder){
           updatedAttr = nextLiOrder/2
         } else {
-          updatedAttr = prevLiOrder*1.01
+            updatedAttr = prevLiOrder + (1- (prevLiOrder%Math.floor(prevLiOrder)))/2
         }
         $list.attr('data-list-rank',updatedAttr);
 
-        var listToUpdate = that.collection.get(parseInt($list.data('id')));
+        var listToUpdate = this.collection.get(parseInt($list.data('id')));
         listToUpdate.save({
           rank: updatedAttr
         }, {patch:true})
 
-      }
-    })
 
-    return this;
-  }
+      },
+
+  sortCards: function (event, ui) {
+    debugger
+        var $card = $(ui.item);
+        var nextLiOrder = $card.next().data("card-order");
+        var prevLiOrder = $card.prev().data("card-order");
+        var updatedAttr;
+        if(nextLiOrder && prevLiOrder){
+          updatedAttr = (nextLiOrder+prevLiOrder)/2;
+        } else if(nextLiOrder){
+          updatedAttr = nextLiOrder/2
+        } else {
+          updatedAttr = prevLiOrder + (1- (prevLiOrder%Math.floor(prevLiOrder)))/2
+        }
+        $card.attr('data-card-order',updatedAttr);
+
+        var listToUpdate = this.collection.get(parseInt($card.data('list-id')));
+        var cardToUpdate = listToUpdate.cards().get(parseInt($card.data('id')));
+
+
+        cardToUpdate.save({
+          rank: updatedAttr
+        }, {patch:true})
+
+      }
 
 
 })
