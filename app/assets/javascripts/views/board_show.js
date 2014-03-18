@@ -98,6 +98,7 @@ window.Trellino.Views.BoardShow = Backbone.CompositeView.extend({
     this.renderSubviews();
 
     $(this.$el).find(".list-group").sortable({
+      connectWith: ".list-group",
       cursor: "move",
       opacity: .3,
       stop: function(event,ui) {
@@ -132,6 +133,7 @@ window.Trellino.Views.BoardShow = Backbone.CompositeView.extend({
     //makes lists sortable
     //todo: break into separate method
     $(this.$el).find(".lists").sortable({
+      connectWith: ".lists-group",
       cursor: "move",
       opacity: .3,
       stop: function(event,ui) {
@@ -166,10 +168,11 @@ window.Trellino.Views.BoardShow = Backbone.CompositeView.extend({
       },
 
   sortCards: function (event, ui) {
-    debugger
         var $card = $(ui.item);
         var nextLiOrder = $card.next().data("card-order");
         var prevLiOrder = $card.prev().data("card-order");
+        var siblingList = $card.prev().data("list-id") || $card.next().data("list-id");
+        debugger
         var updatedAttr;
         if(nextLiOrder && prevLiOrder){
           updatedAttr = (nextLiOrder+prevLiOrder)/2;
@@ -183,9 +186,12 @@ window.Trellino.Views.BoardShow = Backbone.CompositeView.extend({
         var listToUpdate = this.collection.get(parseInt($card.data('list-id')));
         var cardToUpdate = listToUpdate.cards().get(parseInt($card.data('id')));
 
+        $card.attr('data-list-id', siblingList);
+
 
         cardToUpdate.save({
-          rank: updatedAttr
+          rank: updatedAttr,
+          list_id: siblingList
         }, {patch:true})
 
       }

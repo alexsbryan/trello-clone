@@ -12,7 +12,7 @@ window.Trellino.Views.ListShow = Backbone.CompositeView.extend({
 
   initialize: function (options) {
     this.listenTo(this.model, "sync", this.renderSubviews);
-    //this.listenTo(this.model.cards(), "add sync", this.addCard);
+    this.listenTo(this.model.cards(), "add sync", this.addCard);
     this.listenTo(this.model.cards(), "sync add", this.renderSubviews);
     this.listenTo(this.model.cards(), "add", this.render);
     // this.listenTo(this.model.cards(), "remove", this.removeCard);
